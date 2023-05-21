@@ -1,0 +1,90 @@
+extends CanvasLayer
+
+var dialogs = []
+
+var current = 0
+
+
+export var interval = 0.07
+
+onready var content = $content
+#onready var avatar = $content/avatar
+#
+onready var tween = $content/Tween
+onready var button = $content/Button    
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	show_dbx([{text="根据当地新闻报道，有一位去实地探访空难现场的记者\n不幸在雪山迷路。\n\n不过好消息是，他携带了足够的食物和保暖衣物，在回\n到镇子里的时候，他依然剩下了很多罐头。\n\n门多萨省政府建议，请不要对空难现场过多探查，不要\n再让幸存者背上太多的压力。"},
+	
+	])
+	pass # Replace with function body.
+	
+
+func show_dbx(_dialogs):
+	dialogs = _dialogs
+	content.show()
+	show_dialog(0)
+	
+
+func show_dialog(index):
+	current = index
+	var dialog = dialogs[current]
+	content.text = dialog.text
+	
+#	avatar.texture = avatar_map[dialog.avatar]
+
+	#hide button
+#	button.hide()
+	#show texture configure
+	tween.interpolate_property(
+		content,"percent_visible",0,1,
+		interval * content.text.length(),
+		Tween.TRANS_LINEAR
+	)
+	tween.start()
+	
+
+	
+	
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_accept"):
+		if tween.is_active():
+			tween.remove_all()
+			content.percent_visible = 1
+			button.show()
+		get_tree().set_input_as_handled()
+
+func _on_next_pressed():
+	
+	if tween.is_active():
+		tween.remove_all()
+		content.percent_visible = 1
+		
+		
+	elif current + 1 < dialogs.size():
+		show_dialog(current + 1)
+	else:
+#		
+		content.hide()
+		get_tree().change_scene("res://scn/c9.tscn")
+# Declare member variables here. Examples:
+# var a = 2
+# var b = "text"
+
+
+# Called when the node enters the scene tree for the first time.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _on_Tween_tween_all_completed():
+	button.show()

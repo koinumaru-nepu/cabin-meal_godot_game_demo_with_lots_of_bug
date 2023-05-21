@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scn/dbx/s0dbx.tscn" type="PackedScene" id=1]
+[ext_resource path="res://sc/scn/Unity2D山区背景像素平面素材_爱给网_aigei_com/Mountains/m8/PRE_ORIG_SIZE.png" type="Texture" id=3]
+
+[node name="s0_0" type="Node2D"]
+
+[node name="PreOrigSize" type="Sprite" parent="."]
+position = Vector2( 1288, 724.5 )
+scale = Vector2( 4.48611, 4.49691 )
+texture = ExtResource( 3 )
+
+[node name="dbx0" parent="." instance=ExtResource( 1 )]
